@@ -3,16 +3,12 @@
 #
 # Example: If input is 1, 2, 3, 4, 5 and 0 then output is 1, 3, 6, 10 and 15
 
-
-
 	.data
-	
 ask: .asciiz "\nEnter a integer (0 to end program): "
 sum: .asciiz "Sum: "
 
 	.text
 	.global main
-	
 main: 
 
 # Load previus input 

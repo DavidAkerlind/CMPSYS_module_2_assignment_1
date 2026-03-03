@@ -29,33 +29,34 @@ main:
 	move $s2, $v0 			# $s2 = target
 	
 	
-# Call search function
-	move $a0, $s0
-	move $a1, $s1
-	move $a2, $s2
+# Call search function (passing 3 arguments)
+	move $a0, $s0		# prepare $a0 with array (base)
+	move $a1, $s1		# prepare $a1 with size of array 
+	move $a2, $s2		# prepare $a2 with a target value
 	jal search
 	
 	j exit
 	
-	
-	
 search:
 # Save retrun adress
-	subu $sp, $sp, 32 # 6 words	in stackpointer
-	sw $ra, 0($sp)
+	subu $sp, $sp, 32		# make space for 6 words	in stackpointer 
+	sw $ra, 0($sp)	  		# store the seach-subrutine (this one) return adress
 	
 	li $t0, 0               # $t0 = index counter (starts at 0)
+	
+# Take out the arguments passed and store them in temporary registers that can be changed 
     move $t1, $a0           # $t1 = base address of array = array = $t1
     move $t2, $a1           # $t2 = array size
     move $t3, $a2           # $t3 = target value
 	
-	
+	j search_loop
+
 search_loop:
 	beq $t0, $t2, missing 	# index = size we have gone trough the whole list 
 	
 	lw $t4, 0($t1) 			# $t4 = array[index]
 	
-	beq $t4, $t3, found      # if equal means element found
+	beq $t4, $t3, found     # if equal means element found
 
 
 	addi $t0, $t0, 1		#  index++
@@ -66,12 +67,12 @@ search_loop:
 
 found: 
 
-	move $s3, $t0 # move the index in $t0 to a safe place
+	move $s3, $t0 # move the index in $t0 to a safe place $s3
 	
-	subu $sp, $sp, 16 # 4 words	in stackpointer
+	subu $sp, $sp, 16 # 4 words	in stackpointer (make space for print)
 	la $a0, found_p
 	jal print
-	addu $sp, $sp, 16
+	addu $sp, $sp, 16 # restore space stack after print
 	
 	# Print the index
     li $v0, 1

@@ -37,7 +37,9 @@ main:
 	move $t4, $v0       # Save input integer brutto in $t4 
 
 
-	bgt $t4, $t0, high_calc # if greater than jump to hiCALC, netto = brutto - (brutto * low) / 100
+	bgt $t4, $t0, high_calc # if greater than jump to high_calc
+	
+	# low_calc:
 	# netto = brutto - (brutto * low) / 100
 	mul $t5, $t4, $t1   # brutto * low = $t5
 	
@@ -46,12 +48,10 @@ main:
 	
 	sub $t7, $t4, $t6 	# ( (brutto * low) / 100 ) - brutto = $t7
 	
-	
 	sw $t7, netto
 	j	exit
 
-
-high_calc: #netto = brutto - (threshold * low) / 100 - ((brutto - threshold) * high) / 100
+high_calc: # netto = brutto - (threshold * low) / 100 - ((brutto - threshold) * high) / 100
 	
 	# First part  brutto - (threshold * low) / 100
 	mul $t5, $t0, $t1   #(threshold * low) = $t5
