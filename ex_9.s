@@ -13,15 +13,15 @@ size: .word 9
 	
 main: 
 
-# Load varaibles in to registers
+# Load varaibles in to safe registers
 	la $s0, array           # $s0 = base address of array
     lw $s1, size            # $s1 = array size
     
 	
-	subu $sp, $sp, 16 # 4 words	in stackpointer
+	subu $sp, $sp, 16 # 4 words	in stackpointer bu moving the stackpinter backwards
 	la $a0, ask
 	jal print
-	addu $sp, $sp, 16
+	addu $sp, $sp, 16 # restore stackpointer after print.s subrutinte
 	
 # Read integer from user
 	li $v0, 5
@@ -92,8 +92,7 @@ missing:
 	
 search_return:
     # Restore return address and return
-    lw $ra, 0($sp)
-    addu $sp, $sp, 16
+    lw $ra, 0($sp)    # we stored this in the beginning of the search subroutine
     jr $ra
     
     

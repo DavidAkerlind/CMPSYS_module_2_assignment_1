@@ -39,7 +39,7 @@ main:
 
 	bgt $t4, $t0, high_calc # if greater than jump to high_calc
 	
-	# low_calc:
+# low_calc:
 	# netto = brutto - (brutto * low) / 100
 	mul $t5, $t4, $t1   # brutto * low = $t5
 	
